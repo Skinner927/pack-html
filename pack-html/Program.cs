@@ -8,7 +8,7 @@ namespace pack_html
         private static void Main(string[] args)
         {
             // verify passed file is legit
-            if (args[0] == null)
+            if (args.Length < 1 || args[0] == null)
             {
                 Console.WriteLine("No file passed");
                 Exit(1);
