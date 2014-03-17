@@ -44,9 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileRetriever.cs" />
     <Compile Include="Packer.cs" />
     <Compile Include="packers\ImagePacker.cs" />
     <Compile Include="packers\IPacker.cs" />
+    <Compile Include="packers\JavaScriptPacker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Base64Converter.cs" />

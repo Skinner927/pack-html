@@ -36,11 +36,18 @@ namespace pack_html
             var ip = new ImagePacker();
             html = ip.Pack(html, Path.GetDirectoryName(_file));
 
+            var jcp = new JavaScriptPacker();
+            html = jcp.Pack(html, Path.GetDirectoryName(_file));
 
-            
+
+            // Add PACKED to the file name and save it
+            var chop = _file.Split('.');
+            var pathWithoutExtension = _file.Substring(0, _file.IndexOf("." + chop.Last()));
+            var newFilename = pathWithoutExtension + "-PACKED." + chop.Last();
 
 
-            html.Save("test.html");
+            Console.WriteLine(_file + " packed to: " + newFilename);
+            html.Save(newFilename);
         }
     }
 }
