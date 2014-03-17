@@ -32,7 +32,6 @@ namespace pack_html
             html.Load(Path.GetFullPath(path: _file));
 
             //TODO: Turn this into reflection
-
             var ip = new ImagePacker();
             html = ip.Pack(html, Path.GetDirectoryName(_file));
 
@@ -41,6 +40,9 @@ namespace pack_html
 
             var cp = new CssPacker();
             html = cp.Pack(html, Path.GetDirectoryName(_file));
+
+            var ico = new FaviconPacker();
+            html = ico.Pack(html, Path.GetDirectoryName(_file));
 
 
             // Add PACKED to the file name and save it
