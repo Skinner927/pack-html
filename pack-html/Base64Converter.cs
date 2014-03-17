@@ -1,29 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace pack_html
 {
-    class Base64Converter
+    internal class Base64Converter
     {
-
         /// <summary>
-        /// Retrieves the passed file and returns the proper base64 encoding for direct entry in a HTML page.
+        ///     Retrieves the passed file and returns the proper base64 encoding for direct entry in a HTML page.
         /// </summary>
         /// <param name="fileName">Absolute path to file</param>
         /// <returns>Base64 encoded file</returns>
         public string Convert(string fileName)
         {
-
             using (var fr = new FileRetriever())
             {
                 // retrieve our file
-                var dlFile = fr.Retrieve(fileName);
+                string dlFile = fr.Retrieve(fileName);
 
                 // Errors?
                 if (dlFile == null)
@@ -36,7 +29,7 @@ namespace pack_html
                 {
                     // Base64 conversion
                     var buffer = new byte[reader.Length];
-                    reader.Read(buffer, 0, (int)reader.Length);
+                    reader.Read(buffer, 0, (int) reader.Length);
                     base64 = System.Convert.ToBase64String(buffer);
 
                     // Resolve MIME Type
@@ -50,21 +43,19 @@ namespace pack_html
                 // return it
                 return "data:" + extension + ";base64," + base64;
             }
-
         }
 
-        
-        [DllImport(@"urlmon.dll", CharSet = CharSet.Auto)]
-        private extern static System.UInt32 FindMimeFromData(
-            System.UInt32 pBC,
-            [MarshalAs(UnmanagedType.LPStr)] System.String pwzUrl,
-            [MarshalAs(UnmanagedType.LPArray)] byte[] pBuffer,
-            System.UInt32 cbSize,
-            [MarshalAs(UnmanagedType.LPStr)] System.String pwzMimeProposed,
-            System.UInt32 dwMimeFlags,
-            out System.UInt32 ppwzMimeOut,
-            System.UInt32 dwReserverd
-        );
 
+        [DllImport(@"urlmon.dll", CharSet = CharSet.Auto)]
+        private static extern UInt32 FindMimeFromData(
+            UInt32 pBc,
+            [MarshalAs(UnmanagedType.LPStr)] String pwzUrl,
+            [MarshalAs(UnmanagedType.LPArray)] byte[] pBuffer,
+            UInt32 cbSize,
+            [MarshalAs(UnmanagedType.LPStr)] String pwzMimeProposed,
+            UInt32 dwMimeFlags,
+            out UInt32 ppwzMimeOut,
+            UInt32 dwReserverd
+            );
     }
 }

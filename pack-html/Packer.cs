@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using HtmlAgilityPack;
 using pack_html.packers;
 
 namespace pack_html
 {
-    class Packer
+    internal class Packer
     {
         private readonly string _file;
 
         /// <summary>
-        /// Creates a packer. Run Pack() on it.
+        ///     Creates a packer. Run Pack() on it.
         /// </summary>
         /// <param name="file">Absolute path of file to pack</param>
         public Packer(string file)
@@ -23,7 +20,7 @@ namespace pack_html
         }
 
         /// <summary>
-        /// This is essentially Main()
+        ///     This is essentially Main()
         /// </summary>
         public void Pack()
         {
@@ -46,9 +43,9 @@ namespace pack_html
 
 
             // Add PACKED to the file name and save it
-            var chop = _file.Split('.');
-            var pathWithoutExtension = _file.Substring(0, _file.IndexOf("." + chop.Last()));
-            var newFilename = pathWithoutExtension + "-PACKED." + chop.Last();
+            string[] chop = _file.Split('.');
+            string pathWithoutExtension = _file.Substring(0, _file.IndexOf("." + chop.Last(), StringComparison.Ordinal));
+            string newFilename = pathWithoutExtension + "-PACKED." + chop.Last();
 
 
             Console.WriteLine(_file + " packed to: " + newFilename);

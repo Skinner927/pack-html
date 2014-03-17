@@ -1,32 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using HtmlAgilityPack;
 
 namespace pack_html.packers
 {
-    class FaviconPacker : IPacker
+    internal class FaviconPacker : IPacker
     {
         public HtmlDocument Pack(HtmlDocument html, string currentDir)
         {
             // Determines if we should be nice and search the dir for a favicon
-            var iconFound = false;
+            bool iconFound = false;
 
             try
             {
-                foreach (var icon in html.DocumentNode.SelectNodes("//link[(@rel='icon' or @rel='shortcut icon') and @href]"))
+                foreach (
+                    HtmlNode icon in
+                        html.DocumentNode.SelectNodes("//link[(@rel='icon' or @rel='shortcut icon') and @href]"))
                 {
                     // do we skip?
                     if (icon.Attributes.Contains(Tools.SkipAttr))
                         continue;
 
-                    var href = icon.Attributes["href"];
+                    HtmlAttribute href = icon.Attributes["href"];
                     using (var fr = new FileRetriever())
                     {
-                        var file = fr.Retrieve(Tools.GetFullPath(href.Value, currentDir));
+                        string file = fr.Retrieve(Tools.GetFullPath(href.Value, currentDir));
                         if (file != null)
                         {
                             var c = new Base64Converter();
@@ -44,24 +42,24 @@ namespace pack_html.packers
             {
                 // No nodes
             }
-            
 
-            if(iconFound)
+
+            if (iconFound)
                 return html;
 
             // Search the root dir for a favicon, if it exists, be nice and append it to the head
-            var favico = Path.Combine(currentDir, "favicon.ico");
+            string favico = Path.Combine(currentDir, "favicon.ico");
             if (File.Exists(favico))
             {
                 // get the 64 of the file
                 var c = new Base64Converter();
-                var base64 = c.Convert(favico);
+                string base64 = c.Convert(favico);
 
                 // Find the head
-                var head = html.DocumentNode.SelectSingleNode("/html/head");
+                HtmlNode head = html.DocumentNode.SelectSingleNode("/html/head");
 
                 // Create the link element
-                var link = html.CreateElement("link");
+                HtmlNode link = html.CreateElement("link");
                 link.SetAttributeValue("rel", "shortcut icon");
                 link.SetAttributeValue("type", "image/x-icon");
                 link.SetAttributeValue("href", base64);

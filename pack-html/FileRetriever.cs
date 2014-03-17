@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace pack_html
 {
     /// <summary>
-    /// File Retriever is used to retrieve files from either a URL or local path.
-    /// Please wrap in a using clause so files can be removed when done.
+    ///     File Retriever is used to retrieve files from either a URL or local path.
+    ///     Please wrap in a using clause so files can be removed when done.
     /// </summary>
-    class FileRetriever : IDisposable
+    internal class FileRetriever : IDisposable
     {
         private readonly string _tempDir;
 
@@ -20,15 +16,16 @@ namespace pack_html
         {
             _tempDir = GetTemporaryDirectory();
         }
+
         /// <summary>
-        /// Retrieves a file from the web or locally.
+        ///     Retrieves a file from the web or locally.
         /// </summary>
         /// <param name="file">Absolute file path or URL</param>
         /// <returns>Local absolute filepath of where to the file is or null on failure</returns>
         public string Retrieve(string file)
         {
             // Do we have to download the file or is it local?
-            var dlFile = file;
+            string dlFile = file;
 
             if (Tools.IsUrl(file))
             {
@@ -59,16 +56,12 @@ namespace pack_html
 
         private static string GetTemporaryDirectory()
         {
-            var tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             Directory.CreateDirectory(tempDirectory);
             return tempDirectory;
         }
 
         #region Disposal
-        ~FileRetriever()
-        {
-            DisposeMe();
-        }
 
         public void Dispose()
         {
@@ -76,16 +69,25 @@ namespace pack_html
             GC.SuppressFinalize(this);
         }
 
+        ~FileRetriever()
+        {
+            DisposeMe();
+        }
+
         private void DisposeMe()
         {
             // Cleanup temp dir
             try
             {
-                if(Directory.Exists(_tempDir))
+                if (Directory.Exists(_tempDir))
                     Directory.Delete(_tempDir, true);
             }
-            catch { /* eat it, whatever it's a temp dir */ }
+            catch
+            {
+                /* eat it, whatever it's a temp dir */
+            }
         }
+
         #endregion
     }
 }
