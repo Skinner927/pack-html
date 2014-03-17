@@ -22,15 +22,14 @@ namespace pack_html
         /// Returns the full path of a file if not a URL. It's safe to pass URLs through here.
         /// </summary>
         /// <param name="filePath">Path of file or URL</param>
-        /// <param name="currentDir">Curren dir to look in for files. Optional if file is a full path or URL</param>
+        /// <param name="currentDir">Current dir to look in for files. Optional if file is a full path or URL</param>
         /// <returns></returns>
         public static string GetFullPath(string filePath, string currentDir)
         {
             // Get the full path if it's not a URL
             if (!IsUrl(filePath))
             {
-                // Forward slashes need to be swapped to backslashes because windoze is dumb
-                filePath = filePath.Replace('/', '\\');
+
                 if (!Path.IsPathRooted(filePath))
                 {
                     filePath = Path.Combine(currentDir, filePath);

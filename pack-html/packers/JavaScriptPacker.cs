@@ -29,14 +29,14 @@ namespace pack_html.packers
                     if(file != null)
                         contents = File.ReadAllText(file);
                     else
-                        Console.WriteLine("JS: Error retrieveing file: " + src.Value);
+                        Console.WriteLine("JS: Error retrieving file: " + src.Value);
                 }
 
                 // Remove the src tag as we're now going inline
                 script.Attributes.Remove("src");
 
                 // Set the contents to what the file was
-                script.AppendChild(script.OwnerDocument.CreateTextNode(contents));
+                script.AppendChild(script.OwnerDocument.CreateTextNode(contents.Trim()));
             }
 
             // Send it back

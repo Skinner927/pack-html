@@ -21,7 +21,13 @@
         <link rel="stylesheet" href="css/main.css">
 
         <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-		<script src="js/ballbounce.js"></script>
+		<script src="js/ballbounce.js" data-no-pack></script>
+		
+		<style>
+			.jumbotron {
+				background-image: url(   '    img/food.png   '   );
+			}
+		</style>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -81,7 +87,7 @@
     <div class="container">
       <!-- Example row of columns -->
 	  <div class="row">
-		<div class="col-sm-12">
+		<div class="col-sm-12 checkered">
 			<h1>Obvious successful JS import</h1>
 			<p>(if the ball is bouncing)</p>
 			<canvas id="myCanvas" width="300" height="300" ></canvas>
@@ -91,6 +97,8 @@
 				<br>
 				local img:
 				<img src="img/localimg.jpg">
+				<br>
+				data-no-pack:
 				<img src="img/localimg.jpg" data-no-pack>
 			</div>
 		</div>

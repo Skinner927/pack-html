@@ -23,7 +23,7 @@ namespace pack_html
         }
 
         /// <summary>
-        /// This is essentailly Main()
+        /// This is essentially Main()
         /// </summary>
         public void Pack()
         {
@@ -38,6 +38,9 @@ namespace pack_html
 
             var jcp = new JavaScriptPacker();
             html = jcp.Pack(html, Path.GetDirectoryName(_file));
+
+            var cp = new CssPacker();
+            html = cp.Pack(html, Path.GetDirectoryName(_file));
 
 
             // Add PACKED to the file name and save it

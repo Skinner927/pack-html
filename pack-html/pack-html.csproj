@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="FileRetriever.cs" />
     <Compile Include="Packer.cs" />
+    <Compile Include="packers\CssPacker.cs" />
     <Compile Include="packers\ImagePacker.cs" />
     <Compile Include="packers\IPacker.cs" />
     <Compile Include="packers\JavaScriptPacker.cs" />
