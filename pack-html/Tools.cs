@@ -9,6 +9,8 @@ namespace pack_html
 {
     class Tools
     {
+        // This is the string an attribute must have if the block will not be packed
+        public static readonly string SkipAttr = "data-no-pack";
 
         public static bool IsUrl(string url)
         {

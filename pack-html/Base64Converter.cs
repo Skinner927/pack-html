@@ -63,7 +63,8 @@ namespace pack_html
             // Cleanup
             try
             {
-                File.Delete(dlFile);
+                if(Tools.IsUrl(fileName))
+                    File.Delete(dlFile);
             } catch {}
 
             // return it

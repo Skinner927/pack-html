@@ -17,6 +17,10 @@ namespace pack_html.packers
             // Look for all images
             foreach (var img in html.DocumentNode.SelectNodes("//img[@src]"))
             {
+                // do we skip this?
+                if(img.Attributes.Contains(Tools.SkipAttr))
+                    continue;
+
                 // gets the img src
                 var att = img.Attributes["src"];
 
