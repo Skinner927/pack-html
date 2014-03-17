@@ -5,12 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using pack_html.packers;
 
 namespace pack_html
 {
     class Packer
     {
-        private string _file;
+        private readonly string _file;
 
         /// <summary>
         /// Creates a packer. Run Pack() on it.
@@ -21,23 +22,25 @@ namespace pack_html
             _file = file;
         }
 
+        /// <summary>
+        /// This is essentailly Main()
+        /// </summary>
         public void Pack()
         {
+            // Load the HTML file
+            var html = new HtmlDocument();
+            html.Load(Path.GetFullPath(path: _file));
+
+            //TODO: Turn this into reflection
+
+            var ip = new ImagePacker();
+            html = ip.Pack(html, Path.GetDirectoryName(_file));
+
+
             
-            var doc = new HtmlDocument();
-            doc.Load(Path.GetFullPath(path: _file));
-
-            foreach (HtmlNode img in doc.DocumentNode.SelectNodes("//img[@src]"))
-            {
-                var att = img.Attributes["src"];
-                att.Value =
-                    "http://trendwallpaper.com/wp-content/uploads/2013/12/Disney-Cartoon-Animation-Wallpaper.jpg";
-                img.Attributes["src"] = att;
-                    
-            }
 
 
-            doc.Save("test.html");
+            html.Save("test.html");
         }
     }
 }
