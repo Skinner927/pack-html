@@ -11,36 +11,27 @@ namespace pack_html.packers
             // Determines if we should be nice and search the dir for a favicon
             bool iconFound = false;
 
-            try
+            foreach (HtmlNode icon in Tools.SelectNodes(html, "//link[(@rel='icon' or @rel='shortcut icon') and @href]"))
             {
-                foreach (
-                    HtmlNode icon in
-                        html.DocumentNode.SelectNodes("//link[(@rel='icon' or @rel='shortcut icon') and @href]"))
-                {
-                    // do we skip?
-                    if (icon.Attributes.Contains(Tools.SkipAttr))
-                        continue;
+                // do we skip?
+                if (icon.Attributes.Contains(Tools.SkipAttr))
+                    continue;
 
-                    HtmlAttribute href = icon.Attributes["href"];
-                    using (var fr = new FileRetriever())
+                HtmlAttribute href = icon.Attributes["href"];
+                using (var fr = new FileRetriever())
+                {
+                    string file = fr.Retrieve(Tools.GetFullPath(href.Value, currentDir));
+                    if (file != null)
                     {
-                        string file = fr.Retrieve(Tools.GetFullPath(href.Value, currentDir));
-                        if (file != null)
-                        {
-                            var c = new Base64Converter();
-                            icon.SetAttributeValue("href", c.Convert(file));
-                            iconFound = true;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Icon: Error retrieving file: " + href.Value);
-                        }
+                        var c = new Base64Converter();
+                        icon.SetAttributeValue("href", c.Convert(file));
+                        iconFound = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Icon: Error retrieving file: " + href.Value);
                     }
                 }
-            }
-            catch (NullReferenceException)
-            {
-                // No nodes
             }
 
 

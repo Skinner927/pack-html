@@ -1,5 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
+using HtmlAgilityPack;
 
 namespace pack_html
 {
@@ -43,6 +47,24 @@ namespace pack_html
         public static string SafeUrl(string url)
         {
             return url.StartsWith("//") ? "http:" + url : url;
+        }
+
+        /// <summary>
+        /// A safer way to call the SelectNodes method from a HTML DocumentNode. 
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="xPath"></param>
+        /// <returns></returns>
+        public static List<HtmlNode> SelectNodes(HtmlDocument html, string xPath)
+        {
+            try
+            {
+                return html.DocumentNode.SelectNodes(xPath).ToList();
+            }
+            catch (NullReferenceException)
+            {
+                return new List<HtmlNode>();
+            }
         }
     }
 }
